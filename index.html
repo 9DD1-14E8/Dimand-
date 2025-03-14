@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diamond Store + UID + UPI Payment</title>
+    <title>Diamond Store + UID Validation</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -18,50 +18,66 @@
         </div>
     </div>
 
-    <!-- UID Input -->
+    <h2 class="store-title">💎 अपनी UID डालें (8-20 अंकों के बीच) 💎</h2>
     <div class="uid-box">
-        <input type="text" id="uidInput" placeholder="Enter Your Game UID">
+        <input type="text" id="userUID" placeholder="अपनी गेम UID दर्ज करें" maxlength="20">
+        <button class="uid-btn" onclick="submitUID()">Submit</button>
     </div>
 
-    <h2 class="store-title">💎 Diamond Store 💎</h2>
-    <div class="diamond-grid">
-        <div class="diamond-box">
-            <p class="diamond-count">💎 100</p>
-            <button class="price-btn" onclick="makePayment(80)">₹80.00</button>
-        </div>
-        <div class="diamond-box">
-            <p class="diamond-count">💎 310</p>
-            <button class="price-btn" onclick="makePayment(290)">₹290.00</button>
-        </div>
-        <div class="diamond-box">
-            <p class="diamond-count">💎 520</p>
-            <button class="price-btn" onclick="makePayment(480)">₹480.00</button>
-        </div>
-        <div class="diamond-box">
-            <p class="diamond-count">💎 1060</p>
-            <button class="price-btn" onclick="makePayment(1000)">₹1000.00</button>
-        </div>
-        <div class="diamond-box">
-            <p class="diamond-count">💎 2180</p>
-            <button class="price-btn" onclick="makePayment(2000)">₹2000.00</button>
-        </div>
-        <div class="diamond-box">
-            <p class="diamond-count">💎 5600</p>
-            <button class="price-btn" onclick="makePayment(5200)">₹5200.00</button>
+    <div id="diamond-section" style="display: none;">
+        <h2 class="store-title">💎 Diamond Store 💎</h2>
+        <div class="diamond-grid">
+            <div class="diamond-box">
+                <p class="diamond-count">💎 8</p>
+                <button class="price-btn" onclick="buyDiamonds(50)">₹50.00</button>
+            </div>
+            <div class="diamond-box">
+                <p class="diamond-count">💎 100</p>
+                <button class="price-btn" onclick="buyDiamonds(80)">₹80.00</button>
+            </div>
+            <div class="diamond-box">
+                <p class="diamond-count">💎 310</p>
+                <button class="price-btn" onclick="buyDiamonds(290)">₹290.00</button>
+            </div>
+            <div class="diamond-box">
+                <p class="diamond-count">💎 520</p>
+                <button class="price-btn" onclick="buyDiamonds(480)">₹480.00</button>
+            </div>
+            <div class="diamond-box">
+                <p class="diamond-count">💎 1060</p>
+                <button class="price-btn" onclick="buyDiamonds(1000)">₹1000.00</button>
+            </div>
+            <div class="diamond-box">
+                <p class="diamond-count">💎 2180</p>
+                <button class="price-btn" onclick="buyDiamonds(2000)">₹2000.00</button>
+            </div>
+            <div class="diamond-box">
+                <p class="diamond-count">💎 5600</p>
+                <button class="price-btn" onclick="buyDiamonds(5200)">₹5200.00</button>
+            </div>
         </div>
     </div>
 
     <script>
-        function makePayment(amount) {
-            let uid = document.getElementById("uidInput").value.trim();
-            
-            if (uid === "") {
-                alert("⚠️ कृपया पहले अपनी Game UID डालें!");
+        function submitUID() {
+            let uid = document.getElementById("userUID").value.trim();
+
+            if (uid.length < 8) {
+                alert("⚠️ UID कम से कम 8 अंकों की होनी चाहिए!");
+                return;
+            }
+            if (uid.length > 20) {
+                alert("⚠️ UID अधिकतम 20 अंकों की हो सकती है!");
                 return;
             }
 
+            document.getElementById("diamond-section").style.display = "block";
+        }
+
+        function buyDiamonds(amount) {
+            let uid = document.getElementById("userUID").value.trim();
             let upiID = "subodhkumar0101041@axl";
-            let payURL = `upi://pay?pa=${upiID}&pn=Developer Agent Sonar&mc=&tid=&tr=&tn=Diamond Purchase (UID: ${uid})&am=${amount}&cu=INR`;
+            let payURL = `upi://pay?pa=${upiID}&pn=Developer Agent Sonar&tn=Diamond Purchase (UID: ${uid})&am=${amount}&cu=INR`;
             window.location.href = payURL;
         }
     </script>
