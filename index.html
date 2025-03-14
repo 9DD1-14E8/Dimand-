@@ -3,62 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diamond Store + UID Validation</title>
+    <title>Diamond Store + UID Popup</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <div class="container">
-        <div class="card">
-            <p class="ek-text">Ek</p>
-            <div class="circle-img">
-                <img src="urvashi.jpg" alt="Urvashi">
-            </div>
-            <p class="dev-text">Developer Agent Sonar</p>
+    <h2 class="store-title">💎 Diamond Store 💎</h2>
+    <div class="diamond-grid">
+        <div class="diamond-box">
+            <p class="diamond-count">💎 8</p>
+            <button class="price-btn" onclick="showUIDPopup(50)">₹50.00</button>
+        </div>
+        <div class="diamond-box">
+            <p class="diamond-count">💎 100</p>
+            <button class="price-btn" onclick="showUIDPopup(80)">₹80.00</button>
+        </div>
+        <div class="diamond-box">
+            <p class="diamond-count">💎 310</p>
+            <button class="price-btn" onclick="showUIDPopup(290)">₹290.00</button>
+        </div>
+        <div class="diamond-box">
+            <p class="diamond-count">💎 520</p>
+            <button class="price-btn" onclick="showUIDPopup(480)">₹480.00</button>
+        </div>
+        <div class="diamond-box">
+            <p class="diamond-count">💎 1060</p>
+            <button class="price-btn" onclick="showUIDPopup(1000)">₹1000.00</button>
+        </div>
+        <div class="diamond-box">
+            <p class="diamond-count">💎 2180</p>
+            <button class="price-btn" onclick="showUIDPopup(2000)">₹2000.00</button>
+        </div>
+        <div class="diamond-box">
+            <p class="diamond-count">💎 5600</p>
+            <button class="price-btn" onclick="showUIDPopup(5200)">₹5200.00</button>
         </div>
     </div>
 
-    <h2 class="store-title">💎 अपनी UID डालें (8-20 अंकों के बीच) 💎</h2>
-    <div class="uid-box">
-        <input type="text" id="userUID" placeholder="अपनी गेम UID दर्ज करें" maxlength="20">
-        <button class="uid-btn" onclick="submitUID()">Submit</button>
-    </div>
-
-    <div id="diamond-section" style="display: none;">
-        <h2 class="store-title">💎 Diamond Store 💎</h2>
-        <div class="diamond-grid">
-            <div class="diamond-box">
-                <p class="diamond-count">💎 8</p>
-                <button class="price-btn" onclick="buyDiamonds(50)">₹50.00</button>
-            </div>
-            <div class="diamond-box">
-                <p class="diamond-count">💎 100</p>
-                <button class="price-btn" onclick="buyDiamonds(80)">₹80.00</button>
-            </div>
-            <div class="diamond-box">
-                <p class="diamond-count">💎 310</p>
-                <button class="price-btn" onclick="buyDiamonds(290)">₹290.00</button>
-            </div>
-            <div class="diamond-box">
-                <p class="diamond-count">💎 520</p>
-                <button class="price-btn" onclick="buyDiamonds(480)">₹480.00</button>
-            </div>
-            <div class="diamond-box">
-                <p class="diamond-count">💎 1060</p>
-                <button class="price-btn" onclick="buyDiamonds(1000)">₹1000.00</button>
-            </div>
-            <div class="diamond-box">
-                <p class="diamond-count">💎 2180</p>
-                <button class="price-btn" onclick="buyDiamonds(2000)">₹2000.00</button>
-            </div>
-            <div class="diamond-box">
-                <p class="diamond-count">💎 5600</p>
-                <button class="price-btn" onclick="buyDiamonds(5200)">₹5200.00</button>
-            </div>
+    <!-- UID Popup -->
+    <div id="uidPopup" class="popup">
+        <div class="popup-content">
+            <h3>अपनी गेम UID डालें (8-20 अंक)</h3>
+            <input type="text" id="userUID" placeholder="अपनी गेम UID दर्ज करें" maxlength="20">
+            <button class="uid-btn" onclick="submitUID()">Confirm</button>
+            <button class="close-btn" onclick="closePopup()">Cancel</button>
         </div>
     </div>
 
     <script>
+        let currentAmount = 0;
+
+        function showUIDPopup(amount) {
+            currentAmount = amount;
+            document.getElementById("uidPopup").style.display = "block";
+        }
+
+        function closePopup() {
+            document.getElementById("uidPopup").style.display = "none";
+        }
+
         function submitUID() {
             let uid = document.getElementById("userUID").value.trim();
 
@@ -71,16 +74,38 @@
                 return;
             }
 
-            document.getElementById("diamond-section").style.display = "block";
-        }
-
-        function buyDiamonds(amount) {
-            let uid = document.getElementById("userUID").value.trim();
             let upiID = "subodhkumar0101041@axl";
-            let payURL = `upi://pay?pa=${upiID}&pn=Developer Agent Sonar&tn=Diamond Purchase (UID: ${uid})&am=${amount}&cu=INR`;
+            let payURL = `upi://pay?pa=${upiID}&pn=Developer Agent Sonar&tn=Diamond Purchase (UID: ${uid})&am=${currentAmount}&cu=INR`;
             window.location.href = payURL;
         }
     </script>
+
+    <style>
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+            border-radius: 10px;
+        }
+        .popup-content {
+            text-align: center;
+        }
+        .popup input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+        }
+        .popup button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
 
 </body>
 </html>
