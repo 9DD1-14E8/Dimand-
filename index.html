@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diamond Store + UPI Payment</title>
+    <title>Diamond Store + UID + UPI Payment</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,6 +16,11 @@
             </div>
             <p class="dev-text">Developer Agent Sonar</p>
         </div>
+    </div>
+
+    <!-- UID Input -->
+    <div class="uid-box">
+        <input type="text" id="uidInput" placeholder="Enter Your Game UID">
     </div>
 
     <h2 class="store-title">💎 Diamond Store 💎</h2>
@@ -48,8 +53,15 @@
 
     <script>
         function makePayment(amount) {
+            let uid = document.getElementById("uidInput").value.trim();
+            
+            if (uid === "") {
+                alert("⚠️ कृपया पहले अपनी Game UID डालें!");
+                return;
+            }
+
             let upiID = "subodhkumar0101041@axl";
-            let payURL = `upi://pay?pa=${upiID}&pn=Developer Agent Sonar&mc=&tid=&tr=&tn=Diamond Purchase&am=${amount}&cu=INR`;
+            let payURL = `upi://pay?pa=${upiID}&pn=Developer Agent Sonar&mc=&tid=&tr=&tn=Diamond Purchase (UID: ${uid})&am=${amount}&cu=INR`;
             window.location.href = payURL;
         }
     </script>
